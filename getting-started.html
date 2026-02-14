@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Getting Started | NLR Distribution Suite</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2563eb",
+                        "soft-blue": "#eff6ff",
+                        "accent": "#0ea5e9",
+                        "background": "#ffffff",
+                        "slate-subtle": "#f8fafc",
+                    },
+                    fontFamily: {
+                        "sans": ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                @apply text-slate-600 antialiased;
+            }
+        }
+        .code-block {
+            @apply bg-slate-900 text-slate-100 rounded-2xl p-6 font-mono text-sm overflow-x-auto;
+        }
+        .code-block .comment { @apply text-slate-500; }
+        .code-block .command { @apply text-green-400; }
+        .code-block .output { @apply text-slate-400; }
+    </style>
+</head>
+<body class="bg-background">
+
+<!-- Navigation -->
+<nav class="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<a href="index.html" class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">account_tree</span>
+</div>
+<span class="text-lg font-bold text-slate-900">NLR Distribution Suite</span>
+</a>
+</div>
+<div class="hidden md:flex items-center space-x-10 text-sm font-semibold">
+<a class="text-slate-500 hover:text-primary transition-colors" href="index.html#journey">The Journey</a>
+<a class="text-slate-500 hover:text-primary transition-colors" href="index.html#tools">Tool Suite</a>
+<a class="text-primary transition-colors" href="getting-started.html">Docs</a>
+<a class="bg-slate-900 text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition-all text-sm" href="https://github.com/NLR-Distribution-Suite">
+                    GitHub Access
+                </a>
+</div>
+</div>
+</nav>
+
+<!-- Hero -->
+<header class="pt-20 pb-16 border-b border-slate-100">
+<div class="max-w-4xl mx-auto px-6">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-soft-blue text-primary text-sm font-semibold mb-6">
+<span class="material-symbols-outlined text-lg">rocket_launch</span>
+            Getting Started Guide
+        </div>
+<h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
+            Set up your environment in minutes.
+        </h1>
+<p class="text-lg text-slate-500 leading-relaxed max-w-2xl">
+            This guide walks you through installing the core packages, building your first grid model, and connecting it to an AI agent. No prior power systems experience required.
+        </p>
+</div>
+</header>
+
+<!-- Table of Contents -->
+<div class="max-w-4xl mx-auto px-6 py-12">
+<div class="bg-slate-subtle border border-slate-100 rounded-3xl p-8">
+<h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6">On This Page</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+<a href="#prerequisites" class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors group">
+<span class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">1</span>
+                Prerequisites
+            </a>
+<a href="#install-gdm" class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors group">
+<span class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">2</span>
+                Install Grid Data Models
+            </a>
+<a href="#first-model" class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors group">
+<span class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">3</span>
+                Build Your First Model
+            </a>
+<a href="#install-shift" class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors group">
+<span class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">4</span>
+                Run a Simulation with SHIFT
+            </a>
+<a href="#ditto" class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors group">
+<span class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">5</span>
+                Convert Models with DiTTo
+            </a>
+<a href="#ai-agents" class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors group">
+<span class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">6</span>
+                Connect AI Agents
+            </a>
+</div>
+</div>
+</div>
+
+<!-- Step 1: Prerequisites -->
+<section id="prerequisites" class="max-w-4xl mx-auto px-6 pb-16">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">1</div>
+<h2 class="text-2xl font-bold text-slate-900">Prerequisites</h2>
+</div>
+<p class="text-slate-500 mb-6 leading-relaxed">Before you begin, make sure you have the following installed on your system:</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-white border border-slate-100 rounded-2xl p-6">
+<div class="w-10 h-10 bg-blue-50 text-primary rounded-xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+<h3 class="font-bold text-slate-800 mb-1">Python 3.10+</h3>
+<p class="text-sm text-slate-400">Required runtime for all suite packages.</p>
+</div>
+<div class="bg-white border border-slate-100 rounded-2xl p-6">
+<div class="w-10 h-10 bg-green-50 text-green-600 rounded-xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<h3 class="font-bold text-slate-800 mb-1">pip or conda</h3>
+<p class="text-sm text-slate-400">Package manager for installing dependencies.</p>
+</div>
+<div class="bg-white border border-slate-100 rounded-2xl p-6">
+<div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">code</span>
+</div>
+<h3 class="font-bold text-slate-800 mb-1">Git</h3>
+<p class="text-sm text-slate-400">For cloning repos and version control.</p>
+</div>
+</div>
+<div class="code-block">
+<span class="comment"># Verify your setup</span><br/>
+<span class="command">$ python --version</span><br/>
+<span class="output">Python 3.11.5</span><br/><br/>
+<span class="command">$ git --version</span><br/>
+<span class="output">git version 2.42.0</span>
+</div>
+</section>
+
+<!-- Step 2: Install GDM -->
+<section id="install-gdm" class="max-w-4xl mx-auto px-6 pb-16">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">2</div>
+<h2 class="text-2xl font-bold text-slate-900">Install Grid Data Models</h2>
+</div>
+<p class="text-slate-500 mb-6 leading-relaxed">
+        Grid Data Models (GDM) provides the standardized schemas that every other tool in the suite depends on. It defines the vocabulary for lines, transformers, loads, and all other distribution assets.
+    </p>
+<div class="code-block mb-6">
+<span class="comment"># Install from PyPI</span><br/>
+<span class="command">$ pip install grid-data-models</span><br/><br/>
+<span class="comment"># Or clone for development</span><br/>
+<span class="command">$ git clone https://github.com/NLR-Distribution-Suite/grid-data-models.git</span><br/>
+<span class="command">$ cd grid-data-models</span><br/>
+<span class="command">$ pip install -e ".[dev]"</span>
+</div>
+<div class="bg-soft-blue border border-blue-100 rounded-2xl p-6 flex gap-4">
+<span class="material-symbols-outlined text-primary mt-0.5">lightbulb</span>
+<div>
+<h4 class="font-bold text-slate-800 text-sm mb-1">Tip</h4>
+<p class="text-sm text-slate-500">Check out the <a href="https://github.com/NLR-Distribution-Suite/gdm_tutorial" class="text-primary font-semibold hover:underline">GDM Tutorial</a> repo for interactive Jupyter notebooks that walk you through every model type.</p>
+</div>
+</div>
+</section>
+
+<!-- Step 3: First Model -->
+<section id="first-model" class="max-w-4xl mx-auto px-6 pb-16">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">3</div>
+<h2 class="text-2xl font-bold text-slate-900">Build Your First Model</h2>
+</div>
+<p class="text-slate-500 mb-6 leading-relaxed">
+        Create a simple distribution system model using GDM's Pydantic-based schemas. Every model is fully validated and serializable out of the box.
+    </p>
+<div class="code-block mb-6">
+<span class="comment"># Create a simple distribution bus</span><br/>
+<span style="color:#c084fc">from</span> gdm <span style="color:#c084fc">import</span> DistributionBus<br/>
+<span style="color:#c084fc">from</span> gdm <span style="color:#c084fc">import</span> DistributionLoad<br/><br/>
+<span class="comment"># Define a bus</span><br/>
+bus = DistributionBus(<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;name=<span style="color:#86efac">"bus_001"</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;nominal_voltage=<span style="color:#93c5fd">12.47</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;phases=[<span style="color:#86efac">"A"</span>, <span style="color:#86efac">"B"</span>, <span style="color:#86efac">"C"</span>],<br/>
+)<br/><br/>
+<span class="comment"># Serialize to JSON</span><br/>
+print(bus.model_dump_json(indent=<span style="color:#93c5fd">2</span>))
+</div>
+<div class="bg-slate-subtle border border-slate-100 rounded-2xl p-6 flex gap-4">
+<span class="material-symbols-outlined text-slate-400 mt-0.5">info</span>
+<p class="text-sm text-slate-500">GDM models are built on <strong>Pydantic v2</strong>, so you get automatic validation, serialization, and IDE autocompletion for every field.</p>
+</div>
+</section>
+
+<!-- Step 4: SHIFT -->
+<section id="install-shift" class="max-w-4xl mx-auto px-6 pb-16">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">4</div>
+<h2 class="text-2xl font-bold text-slate-900">Run a Simulation with SHIFT</h2>
+</div>
+<p class="text-slate-500 mb-6 leading-relaxed">
+        SHIFT is the high-performance simulation engine. It reads GDM models and runs power flow, time-series, and scenario analyses at scale.
+    </p>
+<div class="code-block mb-6">
+<span class="comment"># Install SHIFT</span><br/>
+<span class="command">$ pip install shift</span><br/><br/>
+<span class="comment"># Or from source</span><br/>
+<span class="command">$ git clone https://github.com/NLR-Distribution-Suite/shift.git</span><br/>
+<span class="command">$ cd shift</span><br/>
+<span class="command">$ pip install -e ".[dev]"</span>
+</div>
+<div class="code-block mb-6">
+<span class="comment"># Run a basic power flow</span><br/>
+<span style="color:#c084fc">from</span> shift <span style="color:#c084fc">import</span> PowerFlowSolver<br/><br/>
+solver = PowerFlowSolver.from_gdm(system)<br/>
+results = solver.solve()<br/><br/>
+print(results.summary())
+</div>
+<div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 flex gap-4">
+<span class="material-symbols-outlined text-primary mt-0.5">speed</span>
+<div>
+<h4 class="font-bold text-slate-800 text-sm mb-1">Performance</h4>
+<p class="text-sm text-slate-500">SHIFT is optimized for large-scale feeders. It handles 10,000+ node systems with sub-second solve times.</p>
+</div>
+</div>
+</section>
+
+<!-- Step 5: DiTTo -->
+<section id="ditto" class="max-w-4xl mx-auto px-6 pb-16">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">5</div>
+<h2 class="text-2xl font-bold text-slate-900">Convert Models with DiTTo</h2>
+</div>
+<p class="text-slate-500 mb-6 leading-relaxed">
+        DiTTo (Distribution Transformation Tool) converts between distribution model formats — OpenDSS, CIM, CYME, Synergi, and more. It's the Rosetta Stone for grid data.
+    </p>
+<div class="code-block mb-6">
+<span class="comment"># Install DiTTo</span><br/>
+<span class="command">$ pip install ditto.py</span><br/><br/>
+<span class="comment"># Or from source</span><br/>
+<span class="command">$ git clone https://github.com/NLR-Distribution-Suite/ditto.git</span><br/>
+<span class="command">$ cd ditto</span><br/>
+<span class="command">$ pip install -e ".[dev]"</span>
+</div>
+<div class="code-block mb-6">
+<span class="comment"># Convert OpenDSS model to GDM format</span><br/>
+<span style="color:#c084fc">from</span> ditto <span style="color:#c084fc">import</span> Store, convert<br/><br/>
+<span class="comment"># Read from OpenDSS</span><br/>
+store = Store()<br/>
+store.read(input_format=<span style="color:#86efac">"opendss"</span>, path=<span style="color:#86efac">"./master.dss"</span>)<br/><br/>
+<span class="comment"># Write to CIM</span><br/>
+store.write(output_format=<span style="color:#86efac">"cim"</span>, path=<span style="color:#86efac">"./output/"</span>)
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-white border border-slate-100 rounded-xl p-4 text-center">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-widest">OpenDSS</span>
+</div>
+<div class="bg-white border border-slate-100 rounded-xl p-4 text-center">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-widest">CIM</span>
+</div>
+<div class="bg-white border border-slate-100 rounded-xl p-4 text-center">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-widest">CYME</span>
+</div>
+<div class="bg-white border border-slate-100 rounded-xl p-4 text-center">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Synergi</span>
+</div>
+</div>
+</section>
+
+<!-- Step 6: AI Agents -->
+<section id="ai-agents" class="max-w-4xl mx-auto px-6 pb-16">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">6</div>
+<h2 class="text-2xl font-bold text-slate-900">Connect AI Agents</h2>
+</div>
+<p class="text-slate-500 mb-6 leading-relaxed">
+        The suite is designed to work with AI agents through the Model Context Protocol (MCP). This enables LLMs like Claude or GPT to interact with your grid data and simulations using natural language.
+    </p>
+<div class="bg-white border border-slate-200 rounded-3xl p-8 mb-8">
+<div class="font-mono text-sm">
+<div class="flex items-center gap-2 mb-4 border-b pb-4 border-slate-100">
+<div class="w-3 h-3 rounded-full bg-green-400"></div>
+<span class="text-slate-400 text-xs">AI Agent Session — Connected via MCP</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-3">
+<span class="text-primary font-bold text-xs mt-0.5">YOU</span>
+<p class="text-slate-700">"Load the IEEE 123-bus test feeder and run a 24-hour power flow simulation with 15-minute intervals."</p>
+</div>
+<div class="flex gap-3">
+<span class="text-green-600 font-bold text-xs mt-0.5">AI</span>
+<div class="text-slate-600 space-y-1">
+<p>Loading IEEE 123-bus system via <strong>GDM</strong>...</p>
+<p>Configuring time-series solver in <strong>SHIFT</strong>...</p>
+<p>Running 96-step power flow simulation...</p>
+<p class="text-green-600 font-medium">Complete. Found 3 buses with voltage violations below 0.95 p.u. during peak hours (17:00–19:00). Report saved.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="code-block mb-6">
+<span class="comment"># Install GridAI — the MCP bridge</span><br/>
+<span class="command">$ git clone https://github.com/NLR-Distribution-Suite/gridai.git</span><br/>
+<span class="command">$ cd gridai</span><br/>
+<span class="command">$ pip install -e ".[dev]"</span>
+</div>
+<div class="bg-soft-blue border border-blue-100 rounded-2xl p-6 flex gap-4">
+<span class="material-symbols-outlined text-primary mt-0.5">auto_awesome</span>
+<div>
+<h4 class="font-bold text-slate-800 text-sm mb-1">What is MCP?</h4>
+<p class="text-sm text-slate-500">The Model Context Protocol is a standard that lets AI models "see" structured data. Think of it as giving your LLM X-ray vision into your grid models, simulation results, and engineering workflows.</p>
+</div>
+</div>
+</section>
+
+<!-- Next Steps CTA -->
+<section class="py-20">
+<div class="max-w-4xl mx-auto px-6">
+<div class="bg-slate-900 rounded-[2rem] p-12 text-center text-white relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/10 pointer-events-none"></div>
+<h2 class="text-3xl font-bold mb-4 relative z-10">You're all set!</h2>
+<p class="text-slate-400 mb-8 max-w-xl mx-auto relative z-10">Explore the full repositories, dive into advanced tutorials, or join our community to share what you're building.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
+<a class="px-8 py-4 bg-white text-slate-900 font-bold rounded-2xl hover:bg-slate-100 transition-all flex items-center justify-center gap-2" href="https://github.com/NLR-Distribution-Suite">
+                    Browse All Repos
+                    <span class="material-symbols-outlined">open_in_new</span>
+</a>
+<a class="px-8 py-4 bg-slate-800 border border-slate-700 text-white font-bold rounded-2xl hover:bg-slate-700 transition-all flex items-center justify-center gap-2" href="https://github.com/NLR-Distribution-Suite/gdm_tutorial">
+                    GDM Tutorial Notebooks
+                    <span class="material-symbols-outlined">menu_book</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-white py-12 border-t border-slate-100">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-2">
+<a href="index.html" class="flex items-center gap-2">
+<div class="w-6 h-6 bg-slate-100 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500 text-sm">account_tree</span>
+</div>
+<span class="font-bold text-slate-900">NLR AI Distribution Suite</span>
+</a>
+</div>
+<div class="flex flex-wrap justify-center gap-8 text-xs font-semibold text-slate-400 uppercase tracking-widest">
+<a class="hover:text-primary transition-colors" href="https://github.com/NLR-Distribution-Suite">GitHub</a>
+<a class="hover:text-primary transition-colors" href="#">Community</a>
+<a class="hover:text-primary transition-colors" href="#">License</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+</div>
+<div class="text-xs text-slate-400">
+                    &copy; 2024 NLR. Educational &amp; Research Open Source Project.
+                </div>
+</div>
+</div>
+</footer>
+
+</body></html>
