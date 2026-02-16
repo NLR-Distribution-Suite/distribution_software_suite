@@ -214,28 +214,30 @@ print(bus.model_dump_json(indent=<span style="color:#93c5fd">2</span>))
 <h2 class="text-2xl font-bold text-slate-900">Run a Simulation with SHIFT</h2>
 </div>
 <p class="text-slate-500 mb-6 leading-relaxed">
-        SHIFT is the high-performance simulation engine. It reads GDM models and runs power flow, time-series, and scenario analyses at scale.
+        SHIFT is a Python framework for building synthetic distribution feeder models from open-source geospatial data. It fetches building parcels and road networks from OpenStreetMap, constructs graph-based network topologies, and exports simulator-ready models through Grid Data Models and DiTTo.
     </p>
 <div class="code-block mb-6">
-<span class="comment"># Install SHIFT</span><br/>
-<span class="command">$ pip install shift</span><br/><br/>
+<span class="comment"># Install SHIFT from PyPI</span><br/>
+<span class="command">$ pip install nrel-shift</span><br/><br/>
 <span class="comment"># Or from source</span><br/>
 <span class="command">$ git clone https://github.com/NLR-Distribution-Suite/shift.git</span><br/>
 <span class="command">$ cd shift</span><br/>
 <span class="command">$ pip install -e ".[dev]"</span>
 </div>
 <div class="code-block mb-6">
-<span class="comment"># Run a basic power flow</span><br/>
-<span style="color:#c084fc">from</span> shift <span style="color:#c084fc">import</span> PowerFlowSolver<br/><br/>
-solver = PowerFlowSolver.from_gdm(system)<br/>
-results = solver.solve()<br/><br/>
-print(results.summary())
+<span class="comment"># Build a synthetic feeder from geospatial data</span><br/>
+<span style="color:#c084fc">from</span> shift <span style="color:#c084fc">import</span> parcels_from_location, get_road_network<br/>
+<span style="color:#c084fc">from</span> gdm.quantities <span style="color:#c084fc">import</span> Distance<br/><br/>
+<span class="comment"># Fetch building parcels from OpenStreetMap</span><br/>
+parcels = parcels_from_location(<span style="color:#86efac">"Fort Worth, TX"</span>, Distance(<span style="color:#93c5fd">500</span>, <span style="color:#86efac">"m"</span>))<br/><br/>
+<span class="comment"># Fetch the road network for the same area</span><br/>
+road_network = get_road_network(<span style="color:#86efac">"Fort Worth, TX"</span>, Distance(<span style="color:#93c5fd">500</span>, <span style="color:#86efac">"m"</span>))
 </div>
 <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 flex gap-4">
 <span class="material-symbols-outlined text-primary mt-0.5">speed</span>
 <div>
-<h4 class="font-bold text-slate-800 text-sm mb-1">Performance</h4>
-<p class="text-sm text-slate-500">SHIFT is optimized for large-scale feeders. It handles 10,000+ node systems with sub-second solve times.</p>
+<h4 class="font-bold text-slate-800 text-sm mb-1">Features</h4>
+<p class="text-sm text-slate-500">SHIFT includes automated feeder generation, graph-based network modeling, equipment mapping, phase balancing, voltage mapping, and built-in Plotly visualization.</p>
 </div>
 </div>
 </section>
@@ -250,21 +252,22 @@ print(results.summary())
         DiTTo (Distribution Transformation Tool) converts between distribution model formats — OpenDSS, CIM, CYME, Synergi, and more. It's the Rosetta Stone for grid data.
     </p>
 <div class="code-block mb-6">
-<span class="comment"># Install DiTTo</span><br/>
-<span class="command">$ pip install ditto.py</span><br/><br/>
-<span class="comment"># Or from source</span><br/>
+<span class="comment"># Install DiTTo from source</span><br/>
 <span class="command">$ git clone https://github.com/NLR-Distribution-Suite/ditto.git</span><br/>
 <span class="command">$ cd ditto</span><br/>
-<span class="command">$ pip install -e ".[dev]"</span>
+<span class="command">$ pip install -e .</span>
 </div>
 <div class="code-block mb-6">
-<span class="comment"># Convert OpenDSS model to GDM format</span><br/>
-<span style="color:#c084fc">from</span> ditto <span style="color:#c084fc">import</span> Store, convert<br/><br/>
-<span class="comment"># Read from OpenDSS</span><br/>
-store = Store()<br/>
-store.read(input_format=<span style="color:#86efac">"opendss"</span>, path=<span style="color:#86efac">"./master.dss"</span>)<br/><br/>
-<span class="comment"># Write to CIM</span><br/>
-store.write(output_format=<span style="color:#86efac">"cim"</span>, path=<span style="color:#86efac">"./output/"</span>)
+<span class="comment"># Convert a CIM model to OpenDSS format</span><br/>
+<span style="color:#c084fc">from</span> pathlib <span style="color:#c084fc">import</span> Path<br/>
+<span style="color:#c084fc">from</span> ditto.readers.cim_iec_61968_13.reader <span style="color:#c084fc">import</span> Reader<br/>
+<span style="color:#c084fc">from</span> ditto.writers.opendss.write <span style="color:#c084fc">import</span> Writer<br/><br/>
+cim_reader = Reader(ieee13_node_xml_file)<br/>
+cim_reader.read()<br/>
+system = cim_reader.get_system()<br/><br/>
+writer = Writer(system)<br/>
+output_path = Path(<span style="color:#86efac">"./output"</span>)<br/>
+writer.write(output_path=output_path, separate_substations=<span style="color:#93c5fd">False</span>, separate_feeders=<span style="color:#93c5fd">False</span>)
 </div>
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 <div class="bg-white border border-slate-100 rounded-xl p-4 text-center">
