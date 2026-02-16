@@ -100,7 +100,7 @@
             </a>
 <a href="#install-shift" class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors group">
 <span class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">4</span>
-                Run a Simulation with SHIFT
+                Build a Feeder with SHIFT
             </a>
 <a href="#ditto" class="flex items-center gap-3 text-slate-600 hover:text-primary transition-colors group">
 <span class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">5</span>
@@ -189,21 +189,25 @@
         Create a simple distribution system model using GDM's Pydantic-based schemas. Every model is fully validated and serializable out of the box.
     </p>
 <div class="code-block mb-6">
-<span class="comment"># Create a simple distribution bus</span><br/>
-<span style="color:#c084fc">from</span> gdm <span style="color:#c084fc">import</span> DistributionBus<br/>
-<span style="color:#c084fc">from</span> gdm <span style="color:#c084fc">import</span> DistributionLoad<br/><br/>
+<span class="comment"># Create a distribution bus</span><br/>
+<span style="color:#c084fc">from</span> gdm <span style="color:#c084fc">import</span> DistributionBus, DistributionSubstation, DistributionFeeder<br/>
+<span style="color:#c084fc">from</span> gdm.distribution.enums <span style="color:#c084fc">import</span> VoltageTypes, Phase<br/>
+<span style="color:#c084fc">from</span> gdm.quantities <span style="color:#c084fc">import</span> Voltage<br/><br/>
 <span class="comment"># Define a bus</span><br/>
 bus = DistributionBus(<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;name=<span style="color:#86efac">"bus_001"</span>,<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;nominal_voltage=<span style="color:#93c5fd">12.47</span>,<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;phases=[<span style="color:#86efac">"A"</span>, <span style="color:#86efac">"B"</span>, <span style="color:#86efac">"C"</span>],<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;voltage_type=VoltageTypes.LINE_TO_LINE,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;phases=[Phase.A, Phase.B, Phase.C],<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;rated_voltage=Voltage(<span style="color:#93c5fd">12.47</span>, <span style="color:#86efac">"kilovolt"</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;substation=DistributionSubstation.example(),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;feeder=DistributionFeeder.example(),<br/>
 )<br/><br/>
 <span class="comment"># Serialize to JSON</span><br/>
 print(bus.model_dump_json(indent=<span style="color:#93c5fd">2</span>))
 </div>
 <div class="bg-slate-subtle border border-slate-100 rounded-2xl p-6 flex gap-4">
 <span class="material-symbols-outlined text-slate-400 mt-0.5">info</span>
-<p class="text-sm text-slate-500">GDM models are built on <strong>Pydantic v2</strong>, so you get automatic validation, serialization, and IDE autocompletion for every field.</p>
+<p class="text-sm text-slate-500">GDM models are built on <strong>Pydantic v2</strong> with <strong>pint</strong>-based quantities for unit conversion. You get automatic validation, serialization, and IDE autocompletion for every field.</p>
 </div>
 </section>
 
@@ -211,7 +215,7 @@ print(bus.model_dump_json(indent=<span style="color:#93c5fd">2</span>))
 <section id="install-shift" class="max-w-4xl mx-auto px-6 pb-16">
 <div class="flex items-center gap-4 mb-8">
 <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">4</div>
-<h2 class="text-2xl font-bold text-slate-900">Run a Simulation with SHIFT</h2>
+<h2 class="text-2xl font-bold text-slate-900">Build a Feeder with SHIFT</h2>
 </div>
 <p class="text-slate-500 mb-6 leading-relaxed">
         SHIFT is a Python framework for building synthetic distribution feeder models from open-source geospatial data. It fetches building parcels and road networks from OpenStreetMap, constructs graph-based network topologies, and exports simulator-ready models through Grid Data Models and DiTTo.
@@ -303,15 +307,15 @@ writer.write(output_path=output_path, separate_substations=<span style="color:#9
 <div class="space-y-4">
 <div class="flex gap-3">
 <span class="text-primary font-bold text-xs mt-0.5">YOU</span>
-<p class="text-slate-700">"Load the IEEE 123-bus test feeder and run a 24-hour power flow simulation with 15-minute intervals."</p>
+<p class="text-slate-700">"Build a distribution feeder model for Fort Worth, TX and export it to OpenDSS format."</p>
 </div>
 <div class="flex gap-3">
 <span class="text-green-600 font-bold text-xs mt-0.5">AI</span>
 <div class="text-slate-600 space-y-1">
-<p>Loading IEEE 123-bus system via <strong>GDM</strong>...</p>
-<p>Configuring time-series solver in <strong>SHIFT</strong>...</p>
-<p>Running 96-step power flow simulation...</p>
-<p class="text-green-600 font-medium">Complete. Found 3 buses with voltage violations below 0.95 p.u. during peak hours (17:00–19:00). Report saved.</p>
+<p>Fetching parcels and road network via <strong>SHIFT</strong>...</p>
+<p>Building distribution graph and mapping equipment via <strong>GDM</strong>...</p>
+<p>Exporting to OpenDSS via <strong>DiTTo</strong>...</p>
+<p class="text-green-600 font-medium">Complete. Generated a 47-bus distribution feeder model. OpenDSS files saved to ./output/.</p>
 </div>
 </div>
 </div>
